@@ -5,14 +5,28 @@ def readfile():
     jobs = []
     line = job_file.readline()
     while line:
-        line=line.split()
-        jobs.append(Job(line[0], line[1], line[2]))
+        line = line.split()
+        jobs.append(Job(int(line[0]), int(line[1]), int(line[2])))
         line = job_file.readline()
-    print(jobs[0].job_id)
+    return jobs
 
 
 def fifo(jobs):
-    pass
+
+    i = 0
+    time = 0
+    while i < len(jobs):
+        job = jobs[i]
+        job.start = time
+        job.completion = time + job.duration
+        time = time + job.duration
+        i += 1
+
+        # TODO calc turn around and response time
+        #
+
+    test = 1
+
 
 
 def sjf(jobs):
@@ -40,4 +54,5 @@ class Job:
 
 
 if __name__ == "__main__":
-    readfile()
+    jobs = readfile()
+    fifo(jobs)
