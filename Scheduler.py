@@ -9,6 +9,11 @@ def readfile():
         jobs.append(Job(int(line[0]), int(line[1]), int(line[2])))
         line = job_file.readline()
     return jobs
+    #TODO: Create a function to print the table
+
+def printTable():
+    #for i in range (0, len(jobs)):
+    pass
 
 
 def fifo(jobs):
@@ -21,6 +26,7 @@ def fifo(jobs):
         job.completion = time + job.duration
         time = time + job.duration
         i += 1
+        print("FIFO table: ")
 
         # TODO calc turn around and response time
         #
