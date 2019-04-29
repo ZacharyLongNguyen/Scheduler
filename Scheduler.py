@@ -30,7 +30,10 @@ def fifo(jobs):
 
 
 def sjf(jobs):
-    pass
+    pool = jobs
+    order = []
+    time = 0
+
 
 
 def bjf(jobs):
