@@ -8,29 +8,34 @@ def readfile():
         line = line.split()
         jobs.append(Job(int(line[0]), int(line[1]), int(line[2])))
         line = job_file.readline()
-    for i in range(0, len(jobs) - 1): # bubble sort so that jobs is sorted earliest arrival first
-        for j in range(0, len(jobs) - i - 1):
-            if (jobs[j].arrival_time > jobs[j + 1].arrival_time):
-                temp = jobs[j]
-                jobs[j] = jobs[j + 1]
-                jobs[j + 1] = temp
     return jobs
     #TODO: Create a function to print the table
+
 
 def printTable():
     #for i in range (0, len(jobs)):
     pass
 
 
-def fifo(jobs):
+def sortByArrival(job):
+    for i in range(0, len(job) - 1):
+        for j in range(0, len(job) - i - 1):
+            if (job[j].arrival_time > job[j + 1].arrival_time):
+                temp = job[j]
+                job[j] = job[j + 1]
+                job[j + 1] = temp
+    return job
 
+
+def fifo(jobs):
     i = 0
     time = 0
-    while i < len(jobs):
-        job = jobs[i]
-        job.start = time
-        job.completion = time + job.duration
-        time = time + job.duration
+    job = jobs
+    job = sortByArrival(job)
+    while i < len(job):
+        job[i].start = time
+        job[i].completion = time + job[i].duration
+        time = time + job[i].duration
         i += 1
         print("FIFO table: ")
 
@@ -45,7 +50,9 @@ def sjf(jobs):
     time = 0
     job = jobs
     time = 0
-    if(job[0].arrival_time )
+    if(job[0].arrival_time > time):
+        time = job[0].arrival_time
+    job[0].start = time
 
 
 def bjf(jobs):
