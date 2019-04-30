@@ -55,7 +55,7 @@ def sjf(jobs):
     time = 0
     for i in range(0, len(job)):
         for j in range (i, len(job)):
-            if(job[j].duration < job[i].duration):
+            if(job[i].arrival_time == job[j].arrival_time and job[j].duration < job[i].duration):
                 temp = job[j]
                 job[j] = job[i]
                 job[i] = temp
@@ -69,7 +69,7 @@ def bjf(jobs):
     time = 0
     for i in range(0, len(job)):
         for j in range(i, len(job)):
-            if(job[j].duration > job[i].duration):
+            if(job[i].arrival_time == job[j].arrival_time and job[j].duration > job[i].duration):
                 temp = job[j]
                 job[j] = job[i]
                 job[i] = temp
@@ -96,6 +96,7 @@ class Job:
 
 if __name__ == "__main__":
     jobs = readfile()
+    sortByArrival(jobs)
     fifo(jobs)
     sjf(jobs)
     bjf(jobs)
