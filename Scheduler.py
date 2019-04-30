@@ -8,13 +8,39 @@ def readfile():
         line = job_file.readline()
     return jobs
 
+def getStart(job):
+    start = 0
+    total = 0
+    job[0].start = job[0].arrival_time
+    for i in range (1, len(job)):
+        total = total + job[i - 1].duration
+        if(job[i].arrival_time > total):
+            job[i].start = job[i].arrival_time
+            continue
+        job[i].start = job[i - 1].duration + start
+        start = start + job[i - 1].duration
+
+def getEnd(job):
+    job[0].completion = job[0].duration + job[0].arrival_time
+    for i in range (1, len(job)):
+        job[i].completion = job[i].start + job[i].duration
+
+def getResponse(job):
+    response = 0
+    job[0].response_time = job[0].arrival_time
+    for i in range (1, len(job)):
+        job[i].response_time = job[i - 1].duration + response
+        response = response + job[i - 1].duration
 
 def printTable():
-    print("ID \t ARRIVAL \t DURATION \t TOTAL \t RESPONSE")
+    print("ID \t ARRIVAL \t DURATION \t START \t END \t TOTAL \t RESPONSE")
     for i in range (0, len(jobs)):
         print(jobs[i].job_id, end="\t")
-        print(jobs[i].arrival_time, end="\t\t") 
-        print(jobs[i].duration)
+        print(jobs[i].arrival_time, end="\t\t")
+        print(jobs[i].duration, end="\t\t")
+        print(jobs[i].start, end="\t")
+        print(jobs[i].completion, end="\t")
+        print(jobs[i].response_time)
 
 
 def sortByArrival(job):
@@ -32,15 +58,13 @@ def fifo(jobs):
     time = 0
     job = jobs
     job = sortByArrival(job)
-    while i < len(job):
-        job[i].start = time
-        job[i].completion = time + job[i].duration
-        time = time + job[i].duration
-        i += 1
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
     print("FIFO Table: ")
     printTable()
 
-        # TODO calc turn around and response time
+        # TODO calc turn around time
 
 
 def sjf(jobs):
@@ -53,6 +77,9 @@ def sjf(jobs):
                 temp = job[j]
                 job[j] = job[i]
                 job[i] = temp
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
     print("SJF Table:")
     printTable()
 
@@ -67,6 +94,9 @@ def bjf(jobs):
                 temp = job[j]
                 job[j] = job[i]
                 job[i] = temp
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
     print("BJF Table:")
     printTable()
 
