@@ -66,8 +66,6 @@ def sortByArrival(job):
 
 
 def fifo(jobs):
-    i = 0
-    time = 0
     job = jobs
     job = sortByArrival(job)
     getStart(job)
@@ -111,7 +109,7 @@ def bjf(jobs):
     print("BJF Table:")
     printTable()
 
-'''
+
 def stcf(jobs):
     job = jobs
     wait = [0] * (len(jobs) - 1)
@@ -144,14 +142,18 @@ def stcf(jobs):
                     wait[short] = 0
             time += 1
     for k in range(len(jobs) - 1):
-        job.turn_around = jobs[k].duration + wait[k]
+        job[k].turn_around = jobs[k].duration + wait[k]
     print("STCF Table:")
     printTable()
 
 def rr(jobs):
+    job = jobs
+    wait = [0] * (len(jobs) - 1)
+    rt = [0] * (len(jobs) - 1)
+
     print("RR Table:")
     printTable()
-'''
+
 
 class Job:
     def __init__(self, job_id, arrival_time, duration):
@@ -175,6 +177,6 @@ if __name__ == "__main__":
     print("")
     bjf(jobs)
     print("")
-   # stcf(jobs)
-    #print("")
+    stcf(jobs)
+    print("")
    # rr(jobs)
