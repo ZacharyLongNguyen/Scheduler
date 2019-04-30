@@ -30,12 +30,18 @@ def getResponse(job):
     total = 0
     job[0].response_time = job[0].arrival_time
     for i in range (1, len(job)):
-        total = total + job[i - 1].duration
-        if(job[i].arrival_time > total):
-            job[i].response_time = job[i].arrival_time
-            continue
-        job[i].response_time = job[i - 1].duration + response
-        response = response + job[i - 1].duration
+        if(job[i - 1].total - job[i].arrival_time < 0):
+            job[i].response_time = 0
+        else:
+            job[i].response_time = job[i - 1].total - job[i].arrival_time
+
+
+def getTotal(job):
+    total = job[0].duration
+    job[0].total = job[0].duration
+    for i in range (1, len(job)):
+        total = total + job[i].duration
+        job[i].total = total
 
 def printTable():
     print("ID \t ARRIVAL \t DURATION \t START \t END \t TOTAL \t RESPONSE")
@@ -45,6 +51,7 @@ def printTable():
         print(jobs[i].duration, end="\t\t")
         print(jobs[i].start, end="\t")
         print(jobs[i].completion, end="\t")
+        print(jobs[i].total, end="\t")
         print(jobs[i].response_time)
 
 
@@ -65,6 +72,7 @@ def fifo(jobs):
     job = sortByArrival(job)
     getStart(job)
     getEnd(job)
+    getTotal(job)
     getResponse(job)
     print("FIFO Table: ")
     printTable()
@@ -82,6 +90,7 @@ def sjf(jobs):
                 job[i] = temp
     getStart(job)
     getEnd(job)
+    getTotal(job)
     getResponse(job)
     print("SJF Table:")
     printTable()
@@ -97,11 +106,12 @@ def bjf(jobs):
                 job[i] = temp
     getStart(job)
     getEnd(job)
+    getTotal(job)
     getResponse(job)
     print("BJF Table:")
     printTable()
 
-
+'''
 def stcf(jobs):
     job = jobs
     wait = [0] * (len(jobs) - 1)
@@ -141,7 +151,7 @@ def stcf(jobs):
 def rr(jobs):
     print("RR Table:")
     printTable()
-
+'''
 
 class Job:
     def __init__(self, job_id, arrival_time, duration):
@@ -153,6 +163,7 @@ class Job:
         self.completion = None
         self.response_time = None
         self.turn_around = None
+        self.total = None
 
 
 if __name__ == "__main__":
@@ -164,6 +175,6 @@ if __name__ == "__main__":
     print("")
     bjf(jobs)
     print("")
-    stcf(jobs)
-    print("")
-    rr(jobs)
+   # stcf(jobs)
+    #print("")
+   # rr(jobs)
