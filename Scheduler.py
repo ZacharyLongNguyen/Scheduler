@@ -73,9 +73,7 @@ def fifo(jobs):
 
 
 def sjf(jobs):
-    time = 0
     job = jobs
-    time = 0
     for i in range(0, len(job)):
         for j in range (i, len(job)):
             if(job[i].arrival_time == job[j].arrival_time and job[j].duration < job[i].duration):
@@ -90,9 +88,7 @@ def sjf(jobs):
 
 
 def bjf(jobs):
-    time = 0
     job = jobs
-    time = 0
     for i in range(0, len(job)):
         for j in range(i, len(job)):
             if(job[i].arrival_time == job[j].arrival_time and job[j].duration > job[i].duration):
@@ -107,6 +103,9 @@ def bjf(jobs):
 
 
 def stcf(jobs):
+    rt = [0] * (len(jobs) - 1)
+    for i in range(len(jobs) - 1):
+        rt[i] = jobs[i].duration
     print("STCF Table:")
     printTable()
 
