@@ -1,5 +1,3 @@
-
-
 def readfile():
     job_file = open("jobs.dat", "r")
     jobs = []
@@ -9,12 +7,40 @@ def readfile():
         jobs.append(Job(int(line[0]), int(line[1]), int(line[2])))
         line = job_file.readline()
     return jobs
-    #TODO: Create a function to print the table
 
+def getStart(job):
+    start = 0
+    total = 0
+    job[0].start = job[0].arrival_time
+    for i in range (1, len(job)):
+        total = total + job[i - 1].duration
+        if(job[i].arrival_time > total):
+            job[i].start = job[i].arrival_time
+            continue
+        job[i].start = job[i - 1].duration + start
+        start = start + job[i - 1].duration
+
+def getEnd(job):
+    job[0].completion = job[0].duration + job[0].arrival_time
+    for i in range (1, len(job)):
+        job[i].completion = job[i].start + job[i].duration
+
+def getResponse(job):
+    response = 0
+    job[0].response_time = job[0].arrival_time
+    for i in range (1, len(job)):
+        job[i].response_time = job[i - 1].duration + response
+        response = response + job[i - 1].duration
 
 def printTable():
-    #for i in range (0, len(jobs)):
-    pass
+    print("ID \t ARRIVAL \t DURATION \t START \t END \t TOTAL \t RESPONSE")
+    for i in range (0, len(jobs)):
+        print(jobs[i].job_id, end="\t")
+        print(jobs[i].arrival_time, end="\t\t")
+        print(jobs[i].duration, end="\t\t")
+        print(jobs[i].start, end="\t")
+        print(jobs[i].completion, end="\t")
+        print(jobs[i].response_time)
 
 
 def sortByArrival(job):
@@ -32,35 +58,56 @@ def fifo(jobs):
     time = 0
     job = jobs
     job = sortByArrival(job)
-    while i < len(job):
-        job[i].start = time
-        job[i].completion = time + job[i].duration
-        time = time + job[i].duration
-        i += 1
-        print("FIFO table: ")
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
+    print("FIFO Table: ")
+    printTable()
 
-        # TODO calc turn around and response time
-        #
-
-    test = 1
-
+        # TODO calc turn around time
 
 
 def sjf(jobs):
     time = 0
     job = jobs
     time = 0
-    if(job[0].arrival_time > time):
-        time = job[0].arrival_time
-    job[0].start = time
+    for i in range(0, len(job)):
+        for j in range (i, len(job)):
+            if(job[i].arrival_time == job[j].arrival_time and job[j].duration < job[i].duration):
+                temp = job[j]
+                job[j] = job[i]
+                job[i] = temp
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
+    print("SJF Table:")
+    printTable()
 
 
 def bjf(jobs):
-    pass
+    time = 0
+    job = jobs
+    time = 0
+    for i in range(0, len(job)):
+        for j in range(i, len(job)):
+            if(job[i].arrival_time == job[j].arrival_time and job[j].duration > job[i].duration):
+                temp = job[j]
+                job[j] = job[i]
+                job[i] = temp
+    getStart(job)
+    getEnd(job)
+    getResponse(job)
+    print("BJF Table:")
+    printTable()
 
 
 def stcf(jobs):
-    pass
+    print("STCF Table:")
+    printTable()
+
+def rr(jobs):
+    print("RR Table:")
+    printTable()
 
 
 class Job:
@@ -77,4 +124,9 @@ class Job:
 
 if __name__ == "__main__":
     jobs = readfile()
+    sortByArrival(jobs)
     fifo(jobs)
+    sjf(jobs)
+    bjf(jobs)
+    stcf(jobs)
+    rr(jobs)
