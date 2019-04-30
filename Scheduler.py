@@ -199,7 +199,7 @@ class Job:
         self.total = None
 
     def __repr__(self):
-        return "job_id: {}, arrival_time: {},duration: {},response_time{},completion{},start{},turn_around{}"\
+        return "job_id: {}, arrival_time: {},duration: {},response_time: {},completion: {},start: {},turn_around: {}"\
             .format(self.job_id, self.arrival_time, self.duration, self.response_time, self.completion, self.start, self.turn_around)
 
 
