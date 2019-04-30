@@ -1,3 +1,5 @@
+from collections import deque
+
 def readfile():
     job_file = open("jobs.dat", "r")
     jobs = []
@@ -147,11 +149,42 @@ def stcf(jobs):
         job.turn_around = jobs[k].duration + wait[k]
     print("STCF Table:")
     printTable()
+'''
 
 def rr(jobs):
+    prompt = input ("Please enter quantum timer for Round Robin algorithm: ")
+    timer = int(prompt)
+    job = jobs
+    job2 = []
+    done = []
+    time = 0
+    sortByArrival(job)
+    ready = deque()
+    for i in range(0, len(job)):
+        ready.append(job[i])
+    while len(done) != len(job):
+        i = 0
+        if(ready[i].duration < timer):
+            time = time + ready[i].duration
+            ready[i].completion += time
+            done.append(ready[i].job_id)
+            ready.popleft()
+        else:
+            time = time + timer
+            ready[i].duration -= timer
+            ready.append(ready[i])
+            ready.popleft()
+
+    for i in range (0, len(done)):
+        for j in range (i + 1, len(done)):
+            if(job[j].job_id == done[i]):
+                job2.append(job[j])
+    getStart(job2)
+    getEnd(job2)
+    getResponse(job2)
     print("RR Table:")
     printTable()
-'''
+
 
 class Job:
     def __init__(self, job_id, arrival_time, duration):
@@ -176,5 +209,5 @@ if __name__ == "__main__":
     bjf(jobs)
     print("")
    # stcf(jobs)
-    #print("")
-   # rr(jobs)
+   # print("")
+    rr(jobs)
