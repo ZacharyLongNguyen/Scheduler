@@ -11,7 +11,6 @@ def readfile():
     return jobs
     #TODO: Create a function to print the table
 
-
 def printTable():
     print("ID \t ARRIVAL \t DURATION")
     for i in range (0, len(jobs)):
@@ -54,9 +53,15 @@ def sjf(jobs):
     time = 0
     job = jobs
     time = 0
-    if(job[0].arrival_time > time):
-        time = job[0].arrival_time
-    job[0].start = time
+    for i in range(0, len(job)):
+        for j in range (i, len(job)):
+            if(job[j].duration < job[i].duration):
+                temp = job[j]
+                job[j] = job[i]
+                job[i] = temp
+    #if(job[0].arrival_time > time):
+        #time = job[0].arrival_time
+    #job[0].start = time
     print("SJF Table:")
     printTable()
 
