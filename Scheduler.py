@@ -165,6 +165,9 @@ class Job:
         self.turn_around = None
         self.total = None
 
+    def __repr__(self):
+        return "job_id: {}, arrival_time: {},duration: {}".format(self.job_id, self.arrival_time, self.duration)
+
 
 if __name__ == "__main__":
     jobs = readfile()
