@@ -47,15 +47,12 @@ def fifo(jobs):
 
 
 def sjf(jobs):
-    #time = 0
-    #job = jobs
-    #job = sortByArrival(job)
-    #time = 0
-    #if(job[0].arrival_time > time):
-    #    time = job[0].arrival_time
-    #job[0].start = time
-    #for i in range(1, len(job) - 1):
-    #    for j in range((i + 1), )
+    time = 0
+    job = jobs
+    time = 0
+    if(job[0].arrival_time > time):
+        time = job[0].arrival_time
+    job[0].start = time
 
 
 def bjf(jobs):
