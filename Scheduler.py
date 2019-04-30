@@ -27,8 +27,13 @@ def getEnd(job):
 
 def getResponse(job):
     response = 0
+    total = 0
     job[0].response_time = job[0].arrival_time
     for i in range (1, len(job)):
+        total = total + job[i - 1].duration
+        if(job[i].arrival_time > total):
+            job[i].response_time = job[i].arrival_time
+            continue
         job[i].response_time = job[i - 1].duration + response
         response = response + job[i - 1].duration
 
@@ -126,7 +131,11 @@ if __name__ == "__main__":
     jobs = readfile()
     sortByArrival(jobs)
     fifo(jobs)
+    print("")
     sjf(jobs)
+    print("")
     bjf(jobs)
+    print("")
     stcf(jobs)
+    print("")
     rr(jobs)
