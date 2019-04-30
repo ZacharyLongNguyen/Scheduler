@@ -13,8 +13,11 @@ def readfile():
 
 
 def printTable():
-    #for i in range (0, len(jobs)):
-    pass
+    print("ID \t ARRIVAL \t DURATION")
+    for i in range (0, len(jobs)):
+        print(jobs[i].job_id, end="\t")
+        print(jobs[i].arrival_time, end="\t\t") 
+        print(jobs[i].duration)
 
 
 def sortByArrival(job):
@@ -37,7 +40,8 @@ def fifo(jobs):
         job[i].completion = time + job[i].duration
         time = time + job[i].duration
         i += 1
-        print("FIFO table: ")
+    print("FIFO table: ")
+    printTable()
 
         # TODO calc turn around and response time
         #
