@@ -103,9 +103,38 @@ def bjf(jobs):
 
 
 def stcf(jobs):
+    job = jobs
+    wait = [0] * (len(jobs) - 1)
     rt = [0] * (len(jobs) - 1)
     for i in range(len(jobs) - 1):
         rt[i] = jobs[i].duration
+        wait[i] = 0
+    complete = 0
+    minm = 999999999
+    time = 0
+    short = 0
+    while (complete != len(jobs) - 1):
+        for j in range(len(jobs) - 1):
+            if ((jobs[j].arrival_time <= time) and (rt[j] < minm) and rt[j] > 0):
+                minm = rt[j]
+                short = j
+                check = True
+            if (check == False):
+                time += 1
+                continue
+            rt[short] -= 1
+            minm = rt[short]
+            if (minm == 0):
+                minm = 99999999
+            if (rt[short] == 0):
+                complete += 1
+                check = False
+                fint = time + 1
+                if (wait[short] < 0):
+                    wait[short] = 0
+            time += 1
+    for k in range(len(jobs) - 1):
+        job.turn_around = jobs[k].duration + wait[k]
     print("STCF Table:")
     printTable()
 
