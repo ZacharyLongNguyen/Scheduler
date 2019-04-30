@@ -100,3 +100,4 @@ if __name__ == "__main__":
     sjf(jobs)
     bjf(jobs)
     stcf(jobs)
+    #random push
