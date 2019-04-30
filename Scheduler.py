@@ -57,14 +57,18 @@ def sjf(jobs):
     if(job[0].arrival_time > time):
         time = job[0].arrival_time
     job[0].start = time
+    print("SJF Table:")
+    printTable()
 
 
 def bjf(jobs):
-    pass
+    print("BJF Table:")
+    printTable()
 
 
 def stcf(jobs):
-    pass
+    print("STCF Table:")
+    printTable()
 
 
 class Job:
@@ -82,3 +86,6 @@ class Job:
 if __name__ == "__main__":
     jobs = readfile()
     fifo(jobs)
+    sjf(jobs)
+    bjf(jobs)
+    stcf(jobs)
