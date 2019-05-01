@@ -118,6 +118,7 @@ def stcf(jobs):
     job = jobs
     wait = [0] * (len(jobs) - 1)
     rt = [0] * (len(jobs) - 1)
+    started = [False] * (len(jobs) - 1)
     for i in range(len(jobs) - 1):
         rt[i] = jobs[i].duration
         wait[i] = 0
@@ -125,6 +126,7 @@ def stcf(jobs):
     minm = 999999999
     time = 0
     short = 0
+    check = False
     while (complete != len(jobs) - 1):
         for j in range(len(jobs) - 1):
             if ((jobs[j].arrival_time <= time) and (rt[j] < minm) and rt[j] > 0):
