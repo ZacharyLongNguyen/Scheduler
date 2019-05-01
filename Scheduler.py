@@ -1,3 +1,5 @@
+from collections import deque
+
 def readfile():
     job_file = open("jobs.dat", "r")
     jobs = []
@@ -66,6 +68,8 @@ def sortByArrival(job):
 
 
 def fifo(jobs):
+    i = 0
+    time = 0
     job = jobs
     job = sortByArrival(job)
     getStart(job)
@@ -146,11 +150,38 @@ def stcf(jobs):
     print("STCF Table:")
     printTable()
 
-def rr(jobs):
-    job = jobs
-    wait = [0] * (len(jobs) - 1)
-    rt = [0] * (len(jobs) - 1)
 
+def rr(jobs):
+    prompt = input ("Please enter quantum timer for Round Robin algorithm: ")
+    timer = int(prompt)
+    job = jobs
+    job2 = []
+    done = []
+    time = 0
+    sortByArrival(job)
+    ready = deque()
+    for i in range(0, len(job)):
+        ready.append(job[i])
+    while len(done) != len(job):
+        i = 0
+        if(ready[i].duration < timer):
+            time = time + ready[i].duration
+            ready[i].completion += time
+            done.append(ready[i].job_id)
+            ready.popleft()
+        else:
+            time = time + timer
+            ready[i].duration -= timer
+            ready.append(ready[i])
+            ready.popleft()
+
+    for i in range (0, len(done)):
+        for j in range (i + 1, len(done)):
+            if(job[j].job_id == done[i]):
+                job2.append(job[j])
+    getStart(job2)
+    getEnd(job2)
+    getResponse(job2)
     print("RR Table:")
     printTable()
 
@@ -167,6 +198,10 @@ class Job:
         self.turn_around = None
         self.total = None
 
+    def __repr__(self):
+        return "job_id: {}, arrival_time: {},duration: {},response_time: {},completion: {},start: {},turn_around: {}"\
+            .format(self.job_id, self.arrival_time, self.duration, self.response_time, self.completion, self.start, self.turn_around)
+
 
 if __name__ == "__main__":
     jobs = readfile()
@@ -179,4 +214,4 @@ if __name__ == "__main__":
     print("")
     stcf(jobs)
     print("")
-   # rr(jobs)
+    rr(jobs)
