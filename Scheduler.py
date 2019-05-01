@@ -45,7 +45,7 @@ def getTotal(job):
         total = total + job[i].duration
         job[i].total = total
 
-def printTable():
+def printTable(jobs):
     print("ID \t ARRIVAL \t DURATION \t START \t END \t TOTAL \t RESPONSE")
     for i in range (0, len(jobs)):
         print(jobs[i].job_id, end="\t")
@@ -77,7 +77,7 @@ def fifo(jobs):
     getTotal(job)
     getResponse(job)
     print("FIFO Table: ")
-    printTable()
+    printTable(job)
 
         # TODO calc turn around time
 
@@ -95,7 +95,7 @@ def sjf(jobs):
     getTotal(job)
     getResponse(job)
     print("SJF Table:")
-    printTable()
+    printTable(job)
 
 
 def bjf(jobs):
@@ -111,7 +111,7 @@ def bjf(jobs):
     getTotal(job)
     getResponse(job)
     print("BJF Table:")
-    printTable()
+    printTable(job)
 
 
 def stcf(jobs):
@@ -148,7 +148,7 @@ def stcf(jobs):
     for k in range(len(jobs) - 1):
         job[k].turn_around = jobs[k].duration + wait[k]
     print("STCF Table:")
-    printTable()
+    printTable(job)
 
 
 def rr(jobs):
@@ -162,6 +162,7 @@ def rr(jobs):
     ready = deque()
     for i in range(0, len(job)):
         ready.append(job[i])
+    
     while len(done) != len(job):
         i = 0
         if(ready[i].duration < timer):
@@ -183,8 +184,8 @@ def rr(jobs):
     getEnd(job2)
     getResponse(job2)
     print("RR Table:")
-    printTable()
-
+    printTable(job2)
+    
 
 class Job:
     def __init__(self, job_id, arrival_time, duration):
