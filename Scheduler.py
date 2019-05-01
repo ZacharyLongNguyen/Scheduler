@@ -84,6 +84,7 @@ def fifo(jobs):
 
 
 def sjf(jobs):
+
     job = jobs
     for i in range(0, len(job)):
         for j in range (i, len(job)):
@@ -97,7 +98,6 @@ def sjf(jobs):
     getResponse(job)
     print("SJF Table:")
     printTable(job)
-
 
 def bjf(jobs):
     job = jobs
@@ -137,6 +137,9 @@ def stcf(jobs):
             if (check == False):
                 time += 1
                 continue
+            if (started[j] == False):
+                started[j] = True
+                job[j].start = time
             rt[short] -= 1
             minm = rt[short]
             if (minm == 0):
