@@ -148,7 +148,7 @@ def stcf(jobs):
     for k in range(len(jobs) - 1):
         job[k].turn_around = jobs[k].duration + wait[k]
     print("STCF Table:")
-    printTable()
+    printTable(job)
 
 
 def rr(jobs):
