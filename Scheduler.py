@@ -129,7 +129,31 @@ def sjf(jobs):
     printTable(job) """
 
 def bjf(jobs):
+    time = 0
     job = jobs
+    job = sortByArrival(job)
+    if(job[0].arrival_time > time):
+        time = job[0].arrival_time
+    job[0].start = time
+    job[0].completion = job[0].duration + time
+    time = job[0].completion
+    for i in range(1, len(job) - 1):
+        for j in range((i + 1), jobPool(job, time)):
+            temp = job[j]
+            k = j - 1
+            while(k >= i and job[k].duration < temp.duration):
+                job[k + 1] = job[k]
+                k = k - 1
+            job[k + 1] = temp
+        if(job[i].arrival_time > time):
+            time = job[i].arrival_time
+        job[i].start = time
+        job[i].completion = job[i].duration + time
+        time = job[i].completion
+    print("BJF Table:")
+    printTable(job)
+
+"""    job = jobs
     for i in range(0, len(job)):
         for j in range(i, len(job)):
             if(job[i].arrival_time == job[j].arrival_time and job[j].duration > job[i].duration):
@@ -141,7 +165,7 @@ def bjf(jobs):
     getTotal(job)
     getResponse(job)
     print("BJF Table:")
-    printTable(job)
+    printTable(job) """
 
 
 def stcf(jobs):
