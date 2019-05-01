@@ -42,8 +42,9 @@ def getTotal(job):
     total = job[0].duration
     job[0].total = job[0].duration
     for i in range (1, len(job)):
-        total = total + job[i].duration
-        job[i].total = total
+        job[i].total = job[i].completion - job[i].arrival_time
+        #total = total + job[i].duration
+        #job[i].total = total
 
 def printTable(jobs):
     print("ID \t ARRIVAL \t DURATION \t START \t END \t TOTAL \t RESPONSE")
@@ -179,7 +180,7 @@ def rr(jobs):
             ready.popleft()
 
     for i in range (0, len(done)):
-        for j in range (i + 1, len(done)):
+        for j in range (0, len(done)):
             if(job[j].job_id == done[i]):
                 job2.append(job[j])
     getStart(job2)
