@@ -141,7 +141,7 @@ def stcf(jobs):
             if (rt[short] == 0):
                 complete += 1
                 check = False
-                fint = time + 1
+                job[j].completion = time + 1
                 if (wait[short] < 0):
                     wait[short] = 0
             time += 1
