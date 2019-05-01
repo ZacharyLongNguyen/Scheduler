@@ -97,7 +97,9 @@ def sjf(jobs):
         time = job[0].arrival_time
     job[0].start = time
     job[0].completion = job[0].duration + time
+    job[0].response_time = 0
     time = job[0].completion
+    job[0].total = job[0].duration
     for i in range(1, len(job) - 1):
         for j in range((i + 1), jobPool(job, time)):
             temp = job[j]
@@ -111,6 +113,8 @@ def sjf(jobs):
         job[i].start = time
         job[i].completion = job[i].duration + time
         time = job[i].completion
+        job[i].response_time = job[i].completion - job[i].duration - job[i].arrival_time
+        job[i].total = job[i].completion - job[i].arrival_time
     print("SJF Table:")
     printTable(job)
 
@@ -136,7 +140,9 @@ def bjf(jobs):
         time = job[0].arrival_time
     job[0].start = time
     job[0].completion = job[0].duration + time
+    job[0].response_time = 0
     time = job[0].completion
+    job[0].total = job[0].duration
     for i in range(1, len(job) - 1):
         for j in range((i + 1), jobPool(job, time)):
             temp = job[j]
@@ -150,6 +156,8 @@ def bjf(jobs):
         job[i].start = time
         job[i].completion = job[i].duration + time
         time = job[i].completion
+        job[i].response_time = job[i].completion - job[i].duration - job[i].arrival_time
+        job[i].total = job[i].completion - job[i].arrival_time
     print("BJF Table:")
     printTable(job)
 
@@ -193,6 +201,9 @@ def stcf(jobs):
             if (started[j] == False):
                 started[j] = True
                 job[j].start = time
+                job[j].response_time = time - job[j].arrival_time
+                if job[j].response_time < 0:
+                    job[j].response_time = 0
             rt[short] -= 1
             minm = rt[short]
             if (minm == 0):
@@ -205,7 +216,7 @@ def stcf(jobs):
                     wait[short] = 0
             time += 1
     for k in range(len(jobs) - 1):
-        job[k].turn_around = jobs[k].duration + wait[k]
+        job[k].total = jobs[k].duration + wait[k]
     print("STCF Table:")
     printTable(job)
 
